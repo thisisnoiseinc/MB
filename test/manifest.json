@@ -1,5 +1,5 @@
 {
-  "name": "MIDI BLASTE Update",
+  "name": "MIDI BLASTER Update",
   "builds": [
     {
       "chipFamily": "ESP32",
