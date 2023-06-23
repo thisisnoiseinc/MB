@@ -2,7 +2,7 @@
   "name": "MIDI BLASTER Update",
   "builds": [
     {
-      "chipFamily": "ESP32",
+      "chipFamily": "ESP32-S2",
       "improv": false,
       "parts": [
         { "path": "Midi_Blaster_App.ino.bootloader.bin", "offset": 4096 },
