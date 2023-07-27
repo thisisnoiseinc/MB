@@ -1,3 +1,10 @@
+html {
+  box-sizing: border-box;
+  font-size: 16px;
+  background-color: #63666A;
+  font-family: Avenir;
+}
+
 @font-face {
     font-family: Avenir;
     src: url("../MB/Avenir Black.ttf") format('truetype');
