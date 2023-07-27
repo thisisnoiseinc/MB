@@ -9,3 +9,7 @@ html {
     font-family: Avenir;
     src: url("../MB/Avenir Black.ttf") format('truetype');
 }
+
+esp-web-install-button {
+  font-family: "Comic Sans MS", cursive, sans-serif;
+}
