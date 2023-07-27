@@ -7,8 +7,16 @@
     <p style= "font-family: Avenir; color: white;">1. Hold Button 1 on MIDI BLASTER during start-up</p>
     <p style= "font-family: Avenir; color: white;">2. Press "Install" below 👇</p>
     <script type="module" src="https://unpkg.com/esp-web-tools@3.4.2/dist/web/install-button.js?module"></script>
-    <div style="background-color: black">
+    <style>
+  :root {
+    --esp-tools-button-color: black;
+    --esp-tools-button-text-color: white;
+    --esp-tools-button-hover-color: gray;
+    --esp-tools-button-hover-text-color: white;
+    --esp-tools-button-disabled-color: darkgray;
+    --esp-tools-button-disabled-text-color: white;
+  }
+</style>
     <esp-web-install-button manifest="test/manifest.json"></esp-web-install-button>
-    </div>
 </body>
 </html>
