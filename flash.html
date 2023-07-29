@@ -10,15 +10,15 @@
     <p style= "font-family: Avenir; color: white;">2. Press "Install" below 👇</p>
     <script type="module" src="https://unpkg.com/esp-web-tools@3.4.2/dist/web/install-button.js?module"></script>
     <esp-web-install-button manifest="test/manifest.json"></esp-web-install-button>
+    
+    <button id="connectButton">Reset 2.1</button>
     import { ESPLoader } from 'https://cdn.jsdelivr.net/npm/esptool-js@0.3.0/lib/index.min.js';
-
-    <button id="connectButton">Reset 2</button>
     
     const connectButton = document.querySelector('#connectButton');
 
-async function onConnectButtonClick() {
-  const port = await navigator.serial.requestPort();
-  const loader = new ESPLoader(port);
+    async function onConnectButtonClick() {
+    const port = await navigator.serial.requestPort();
+    const loader = new ESPLoader(port);
   // ...
 }
 
