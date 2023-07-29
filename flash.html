@@ -11,7 +11,8 @@
     <script type="module" src="https://unpkg.com/esp-web-tools@3.4.2/dist/web/install-button.js?module"></script>
     <esp-web-install-button manifest="test/manifest.json"></esp-web-install-button>
     
-    <button id="connectButton">Reset 2.1</button>
+    <button id="connectButton">Reset 2.2</button>
+    <script>
     import { ESPLoader } from 'https://cdn.jsdelivr.net/npm/esptool-js@0.3.0/lib/index.min.js';
     
     const connectButton = document.querySelector('#connectButton');
@@ -21,8 +22,8 @@
     const loader = new ESPLoader(port);
   // ...
 }
-
 connectButton.addEventListener('click', onConnectButtonClick);
+    </script>
     
     <style>
   :root {
