@@ -10,7 +10,7 @@
     <p style= "font-family: Avenir; color: white;">2. Press "Install" below 👇</p>
     <script type="module" src="https://unpkg.com/esp-web-tools@3.4.2/dist/web/install-button.js?module"></script>
     <esp-web-install-button manifest="test/manifest.json"></esp-web-install-button>
-    <script src="https://cdn.jsdelivr.net/npm/esptool-js@0.3.0/lib/index.min.js"></script>
+    <script type="module" src="https://unpkg.com/esptool-js/lib/index.js?module"></script>
     <style>
   :root {
     --esp-tools-button-color: #B51F99;
@@ -18,8 +18,7 @@
   }
 </style>
 
-import { ESPLoader } from 'esptool-js';
-<button id="connectButton">Reset 1.06</button
+<button id="connectButton">Reset 1.07</button
 
 const connectButton = document.querySelector('#connectButton');
 
