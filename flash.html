@@ -16,7 +16,7 @@
     --esp-tools-button-text-color: white;
   }
 </style>
-<button id="resetButton">Reset 1.01</button>
+<button id="resetButton">Reset 1.02</button>
 
 <script>
   const resetButton = document.querySelector('#resetButton');
@@ -26,9 +26,11 @@
     await port.open({ baudRate: 115200 });
 
     // Reset sequence
-    await new Promise((resolve) => setTimeout(resolve, 200));
-    await port.setSignals({ requestToSend: false });
-    await new Promise((resolve) => setTimeout(resolve, 200));
+await port.setSignals({ dataTerminalReady: false, requestToSend: true });
+  await new Promise((resolve) => setTimeout(resolve, 50));
+  await port.setSignals({ dataTerminalReady: true, requestToSend: false });
+  await new Promise((resolve) => setTimeout(resolve, 50));
+  await port.setSignals({ dataTerminalReady: false, requestToSend: true });
   }
 
   resetButton.addEventListener('click', onResetButtonClick);
