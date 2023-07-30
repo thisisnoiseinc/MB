@@ -1,3 +1,4 @@
+<script type="text/typescript">
 const baudrates = document.getElementById("baudrates") as HTMLSelectElement;
 const connectButton = document.getElementById("connectButton") as HTMLButtonElement;
 const disconnectButton = document.getElementById("disconnectButton") as HTMLButtonElement;
@@ -315,3 +316,5 @@ programButton.onclick = async () => {
 };
 
 addFileButton.onclick(this);
+
+</script>
