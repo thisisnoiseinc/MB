@@ -12,10 +12,9 @@
     <script src="https://unpkg.com/esptool-js/lib/index.js?module"></script>
     <esp-web-install-button manifest="test/manifest.json"></esp-web-install-button>
 
-    <button id="connectButton">Reset 2.1</button>
+    <button id="connectButton">Reset 2.2</button>
     <script>
         async function connectButton() {
-    try {
         // Request access to a serial port
         const device = await navigator.serial.requestPort();
         // Open the port with a baud rate of 115200
@@ -26,10 +25,6 @@
         await loader.connect();
         // Display a message that the connection was successful
         console.log('Connected to device');
-    } catch (error) {
-        // Display an error message if the connection failed
-        console.error('Error connecting to device:', error);
-    }
 // Get a reference to the connectButton element
 const connectButtonElement = document.getElementById('connectButton');
 // Attach an event listener to the connectButton element
