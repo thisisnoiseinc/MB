@@ -9,7 +9,35 @@
     <p style= "font-family: Avenir; color: white;">1. Hold Button 1 on MIDI BLASTER during start-up</p>
     <p style= "font-family: Avenir; color: white;">2. Press "Install" below 👇</p>
     <script type="module" src="https://unpkg.com/esp-web-tools@3.4.2/dist/web/install-button.js?module"></script>
+    <script src="https://unpkg.com/esptool-js/lib/index.js?module"></script>
     <esp-web-install-button manifest="test/manifest.json"></esp-web-install-button>
+
+    <button id="connectButton">Reset 2</button>
+    <script>
+        async function connectButton() {
+    try {
+        // Define port filters for the device using WebSerial API
+        const portFilters: { usbVendorId ?: number | undefined, usbProductId ?: number | undefined }[] = [];
+        // Request access to a serial port
+        const device = await navigator.serial.requestPort({ filters: portFilters });
+        // Open the port with a baud rate of 115200
+        await device.open({ baudRate: 115200 });
+        // Create an ESPLoader instance with the device and a terminal object
+        const loader = new ESPLoader(device, espLoaderTerminal);
+        // Connect to the device using the loader
+        await loader.connect();
+        // Display a message that the connection was successful
+        console.log('Connected to device');
+    } catch (error) {
+        // Display an error message if the connection failed
+        console.error('Error connecting to device:', error);
+    }
+// Get a reference to the connectButton element
+const connectButtonElement = document.getElementById('connectButton');
+// Attach an event listener to the connectButton element
+connectButtonElement.addEventListener('click', connectButton);
+}
+    </script>
 <style>
   :root {
     --esp-tools-button-color: #B51F99;
