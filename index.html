@@ -11,15 +11,20 @@
     <script type="module" src="https://unpkg.com/esp-web-tools@3.4.2/dist/web/install-button.js?module"></script>
     <script src="https://unpkg.com/esptool-js/lib/index.js?module"></script>
     <esp-web-install-button manifest="test/manifest.json"></esp-web-install-button>
+<script>
+    async function connectButton() {
+    try {
+        const portFilters: { usbVendorId ?: number | undefined, usbProductId ?: number | undefined }[] = [];
+        const device = await navigator.serial.requestPort({ filters: portFilters });
+        // You can now use the device object to connect to the device and use it with esptool-js.
+        // Here, you can also define and use your custom reset function.
+    } catch (error) {
+        console.error('Error connecting to device:', error);
+    }
+}
+</script>
 
-     <select name="baudrates" id="baudrates">
-        <option value="921600">921600</option>
-        <option value="460800">460800</option>
-        <option value="230400">230400</option>
-        <option value="115200">115200</option>
-    </select>
-
-    <input class="btn btn-info btn-sm" type="button" id="connectButton" value="Connect" />
+    <input class="btn btn-info btn-sm" type="button" id="connectButton" value="Connect" onclick="connectButton()" />
     
     <style>
   :root {
