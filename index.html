@@ -16,5 +16,24 @@
     --esp-tools-button-text-color: white;
   }
 </style>
+
+<button id="resetButton">Reset</button>
+
+<script>
+  const resetButton = document.querySelector('#resetButton');
+
+  async function onResetButtonClick() {
+    const port = await navigator.serial.requestPort();
+    await port.open({ baudRate: 115200 });
+
+    // Reset sequence
+    await port.setSignals({ dataTerminalReady: false, requestToSend: true });
+    await new Promise((resolve) => setTimeout(resolve, 100));
+    await port.setSignals({ dataTerminalReady: true, requestToSend: false });
+    await new Promise((resolve) => setTimeout(resolve, 50));
+    await port.setSignals({ dataTerminalReady: false });
+  }
+
+  resetButton.addEventListener('click', onResetButtonClick);
 </body>
 </html>
