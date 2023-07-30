@@ -17,7 +17,7 @@
   }
 </style>
 
-<button id="resetButton">Reset 1.1</button>
+<button id="resetButton">Reset 1.2</button>
 
 <script>
   const resetButton = document.querySelector('#resetButton');
@@ -32,7 +32,7 @@
     await new Promise((resolve) => setTimeout(resolve, 100));
     await port.setSignals({ dataTerminalReady: false });
     await port.setSignals({ requestToSend: true });
-    await new Promise((resolve) => setTimeout(resolve, 50));
+    await new Promise((resolve) => setTimeout(resolve, 100));
     await port.setSignals({ dataTerminalReady: true });
   }
 
