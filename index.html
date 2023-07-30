@@ -17,7 +17,7 @@
   }
 </style>
 
-<button id="resetButton">Reset 1.4</button>
+<button id="resetButton">Reset 1.5</button>
 
 <script>
   const resetButton = document.querySelector('#resetButton');
@@ -27,17 +27,17 @@
     await port.open({ baudRate: 115200 });
 
     // Reset sequence
-    await port.setSignals({ dataTerminalReady: true });
-    await port.setSignals({ requestToSend: true });
-    await new Promise((resolve) => setTimeout(resolve, 100));
-    await port.setSignals({ requestToSend: false });
     await port.setSignals({ dataTerminalReady: false });
-    await new Promise((resolve) => setTimeout(resolve, 100));
-    await port.setSignals({ dataTerminalReady: true });
     await port.setSignals({ requestToSend: false });
+    await new Promise((resolve) => setTimeout(resolve, 100));
+    await port.setSignals({ requestToSend: true });
+    await port.setSignals({ dataTerminalReady: true });
     await new Promise((resolve) => setTimeout(resolve, 100));
     await port.setSignals({ dataTerminalReady: false });
     await port.setSignals({ requestToSend: true });
+    await new Promise((resolve) => setTimeout(resolve, 100));
+    await port.setSignals({ dataTerminalReady: true });
+    await port.setSignals({ requestToSend: false });
   }
 
   resetButton.addEventListener('click', onResetButtonClick);
