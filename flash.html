@@ -9,21 +9,18 @@
     <p style= "font-family: Avenir; color: white;">1. Hold Button 1 on MIDI BLASTER during start-up</p>
     <p style= "font-family: Avenir; color: white;">2. Press "Install" below 👇</p>
     <script type="module" src="https://unpkg.com/esp-web-tools@3.4.2/dist/web/install-button.js?module"></script>
+    <script type="module" src="https://unpkg.com/esptool-js/lib/index.js"></script>
     <esp-web-install-button manifest="test/manifest.json"></esp-web-install-button>
-    
-    <button id="connectButton">Reset 2.2</button>
-    <script>
-    import { ESPLoader } from 'https://cdn.jsdelivr.net/npm/esptool-js@0.3.0/lib/index.min.js';
-    
-    const connectButton = document.querySelector('#connectButton');
 
-    async function onConnectButtonClick() {
-    const port = await navigator.serial.requestPort();
-    const loader = new ESPLoader(port);
-  // ...
-}
-connectButton.addEventListener('click', onConnectButtonClick);
-    </script>
+    <input class="btn btn-info btn-sm" type="button" id="connectButton" value="Connect" />
+     <select name="baudrates" id="baudrates">
+        <option value="921600">921600</option>
+        <option value="460800">460800</option>
+        <option value="230400">230400</option>
+        <option value="115200">115200</option>
+    </select>
+
+    <input class="btn btn-info btn-sm" type="button" id="connectButton" value="Connect" />
     
     <style>
   :root {
