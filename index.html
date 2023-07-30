@@ -12,7 +12,7 @@
     <script src="https://unpkg.com/esptool-js/lib/index.js?module"></script>
     <esp-web-install-button manifest="test/manifest.json"></esp-web-install-button>
 
-    <button id="resetButton">Reset 3.5</button>
+    <button id="resetButton">Reset 3.6</button>
 
 <script>
   const resetButton = document.querySelector('#resetButton');
@@ -24,10 +24,10 @@
     // Reset sequence
 
     await new Promise((resolve) => setTimeout(resolve, 200));
-    await port.setSignals({ requestToSend: true });
-    await new Promise((resolve) => setTimeout(resolve, 200));
-    await port.setSignals({ dataTerminalReady: true });
     await port.setSignals({ requestToSend: false });
+    await new Promise((resolve) => setTimeout(resolve, 200));
+    await port.setSignals({ dataTerminalReady: false });
+    await port.setSignals({ requestToSend: true });
   }
 
   resetButton.addEventListener('click', onResetButtonClick);
