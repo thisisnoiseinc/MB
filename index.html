@@ -12,25 +12,25 @@
     <script src="https://unpkg.com/esptool-js/lib/index.js?module"></script>
     <esp-web-install-button manifest="test/manifest.json"></esp-web-install-button>
 
-    <button id="connectButton">Reset 2.2</button>
-    <script>
-        async function connectButton() {
-        // Request access to a serial port
-        const device = await navigator.serial.requestPort();
-        // Open the port with a baud rate of 115200
-        await device.open({ baudRate: 115200 });
-        // Create an ESPLoader instance with the device and a terminal object
-        const loader = new ESPLoader(device, espLoaderTerminal);
-        // Connect to the device using the loader
-        await loader.connect();
-        // Display a message that the connection was successful
-        console.log('Connected to device');
-// Get a reference to the connectButton element
-const connectButtonElement = document.getElementById('connectButton');
-// Attach an event listener to the connectButton element
-connectButtonElement.addEventListener('click', connectButton);
-}
-    </script>
+    <button id="resetButton">Reset 3</button>
+
+<script>
+  const resetButton = document.querySelector('#resetButton');
+
+  async function onResetButtonClick() {
+    const port = await navigator.serial.requestPort();
+    await port.open({ baudRate: 115200 });
+
+    // Reset sequence
+
+    await new Promise((resolve) => setTimeout(resolve, 200));
+    await port.setSignals({ requestToSend: false });
+    await new Promise((resolve) => setTimeout(resolve, 200));
+  }
+
+  resetButton.addEventListener('click', onResetButtonClick);
+    
+</script>
 <style>
   :root {
     --esp-tools-button-color: #B51F99;
