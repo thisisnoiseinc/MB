@@ -20,7 +20,7 @@ const alertDiv = document.getElementById("alertDiv");
 // This is a frontend example of Esptool-JS using local bundle file
 // To optimize use a CDN hosted version like
 // https://unpkg.com/esptool-js@0.2.0/bundle.js
-const { ESPLoader, FlashOptions, LoaderOptions, Transport } = require("../../../lib");
+const { ESPLoader, FlashOptions, LoaderOptions, Transport } = require("https://cdn.jsdelivr.net/npm/esptool-js@0.3.0/lib");
 
 let Terminal; // Terminal is imported in HTML script
 let CryptoJS; // CryptoJS is imported in HTML script
