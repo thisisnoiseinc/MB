@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>ESP32 Bootloader Mode</title>
+  <title>ESP32S2 Bootloader Mode</title>
 </head>
 <body>
-  <button id="connectBtn">Connect to ESP32</button>
+  <button id="connectBtn">Connect to ESP32S2</button>
   <button id="disconnectBtn">Disconnect</button>
 
-  <script src="https://unpkg.com/esptool-js@latest/dist/browser.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       let port;
@@ -19,20 +18,20 @@
         console.log(message);
       }
 
-      // Function to put the ESP32 into bootloader mode
+      // Function to put the ESP32S2 into bootloader mode
       async function enterBootloaderMode() {
         try {
-          const baudrate = 115200; // Set the baud rate here
-
           port = await navigator.serial.requestPort({ filters: [] });
-          await port.open({ baudRate: baudrate });
-          const esptool = new EsptoolJs({ port });
+          await port.open({ baudRate: 115200 }); // Set the baud rate here
 
-          // The following line puts the ESP32 into bootloader mode
-          await esptool._connect();
-          logToConsole("ESP32 in bootloader mode.");
+          // Toggle DTR and RTS signals to put ESP32S2 into bootloader mode
+          await port.setSignals({ dataTerminalReady: false, requestToSend: true });
+          await new Promise((resolve) => setTimeout(resolve, 200)); // Adjust the delay as needed
+          await port.setSignals({ dataTerminalReady: true, requestToSend: false });
+
+          logToConsole("ESP32S2 in bootloader mode.");
         } catch (err) {
-          console.error("Error putting ESP32 into bootloader mode:", err);
+          console.error("Error putting ESP32S2 into bootloader mode:", err);
         }
       }
 
