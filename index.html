@@ -1,58 +1,54 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>ESP32S2 Bootloader Mode</title>
+  <title>ESP32S2 Bootloader Mode 3.0</title>
+  <script src="https://cdn.jsdelivr.net/npm/esptool-js@0.3.0/lib/index.min.js"></script>
 </head>
 <body>
-  <button id="connectBtn">Connect to ESP32S2</button>
-  <button id="disconnectBtn">Disconnect</button>
+  <button id="connectButton">Connect to ESP32S2</button>
 
   <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      let port;
-      const connectBtn = document.getElementById("connectBtn");
-      const disconnectBtn = document.getElementById("disconnectBtn");
+const baudrates = 115200;
+const connectButton = document.getElementById("connectButton") as HTMLButtonElement;
 
-      // Function to log messages to the console
-      function logToConsole(message) {
-        console.log(message);
-      }
+import { ESPLoader } from "./esploader";
+import { Transport } from "./webserial";
 
-      // Function to put the ESP32S2 into bootloader mode
-      async function enterBootloaderMode() {
-        try {
-          port = await navigator.serial.requestPort({ filters: [] });
-          await port.open({ baudRate: 115200 }); // Set the baud rate here
+    connectButton.onclick = async () => {
+  if (device === null) {
+    device = await navigator.serial.requestPort({});
+    transport = new Transport(device);
+  }
 
-          // Toggle DTR and RTS signals to put ESP32S2 into bootloader mode
-          await port.setSignals({ dataTerminalReady: false, requestToSend: true });
-          await new Promise((resolve) => setTimeout(resolve, 200)); // Adjust the delay as needed
-          await port.setSignals({ dataTerminalReady: true, requestToSend: false });
+  try {
+    const flashOptions = {
+      transport,
+      baudrate: parseInt(baudrates.value),
+      terminal: espLoaderTerminal,
+    } as LoaderOptions;
+    esploader = new ESPLoader(flashOptions);
 
-          logToConsole("ESP32S2 in bootloader mode.");
-        } catch (err) {
-          console.error("Error putting ESP32S2 into bootloader mode:", err);
-        }
-      }
+    chip = await esploader.main_fn();
 
-      // Function to disconnect from the serial port
-      async function disconnect() {
-        if (port) {
-          await port.close();
-          logToConsole("Disconnected");
-        }
-      }
+    // Temporarily broken
+    // await esploader.flash_id();
+  } catch (e) {
+    console.error(e);
+    term.writeln(`Error: ${e.message}`);
+  }
 
-      // Event listener for the Connect button
-      connectBtn.addEventListener("click", () => {
-        enterBootloaderMode();
-      });
+  console.log("Settings done for :" + chip);
+  lblBaudrate.style.display = "none";
+  lblConnTo.innerHTML = "Connected to device: " + chip;
+  lblConnTo.style.display = "block";
+  baudrates.style.display = "none";
+  connectButton.style.display = "none";
+  disconnectButton.style.display = "initial";
+  eraseButton.style.display = "initial";
+  filesDiv.style.display = "initial";
+  consoleDiv.style.display = "none";
+};
 
-      // Event listener for the Disconnect button
-      disconnectBtn.addEventListener("click", () => {
-        disconnect();
-      });
-    });
   </script>
 </body>
 </html>
