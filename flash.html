@@ -13,7 +13,7 @@
     <script src="https://cdn.jsdelivr.net/npm/esptool-js@0.3.0/lib/index.min.js"></script>
     <esp-web-install-button manifest="test/manifest.json"></esp-web-install-button>
 
-    <button id="connectButton">Reset 4.0</button>
+    <button id="connectButton">Reset 4.1</button>
 
 <script>
   function connectButton() {
@@ -25,7 +25,7 @@
     try {
       // Connect to the device using esptool-js
       const esptool = new Esptool();
-      await esptool.connect();
+      await connect();
       
       // Perform further actions after successful connection
       // ...
