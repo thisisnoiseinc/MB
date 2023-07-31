@@ -1,1 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ESP32S2 Bootloader Mode</title>
+</head>
+<body>
+  <h1>ESP32S2 Bootloader Mode</h1>
+  <p>Click the "Enter Bootloader" button to put the ESP32S2 into bootloader mode.</p>
+  <button id="enterBootloaderButton">Enter Bootloader</button>
 
+  <script>
+    let serialPort;
+
+    // Function to open the serial port and configure RTS/DTR signals
+    async function openSerialPort() {
+      try {
+        const filters = [{ usbVendorId: 0x10C4, usbProductId: 0xEA60 }]; // Adjust the vendorId and productId according to your ESP32S2 device
+        serialPort = await navigator.serial.requestPort({ filters });
+        await serialPort.open({ baudRate: 115200 }); // You can adjust the baud rate if needed
+
+        // Set RTS and DTR signals to put the ESP32S2 into bootloader mode
+        await serialPort.setSignals({ dataTerminalReady: true, requestToSend: true });
+        await new Promise(resolve => setTimeout(resolve, 500)); // Wait for 500ms
+        await serialPort.setSignals({ dataTerminalReady: false, requestToSend: false });
+        console.log("ESP32S2 in bootloader mode!");
+      } catch (error) {
+        console.error("Error opening serial port:", error);
+      }
+    }
+
+    // Function to close the serial port
+    async function closeSerialPort() {
+      try {
+        if (serialPort) {
+          await serialPort.close();
+          serialPort = null;
+          console.log("Serial port closed.");
+        }
+      } catch (error) {
+        console.error("Error closing serial port:", error);
+      }
+    }
+
+    document.getElementById("enterBootloaderButton").addEventListener("click", () => {
+      openSerialPort();
+    });
+
+    // Ensure the serial port is closed when the page is unloaded
+    window.addEventListener("beforeunload", () => {
+      closeSerialPort();
+    });
+  </script>
+</body>
+</html>
