@@ -1,23 +1,59 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>ESPTool-JS Demo 2</title>
+  <title>ESP32 Bootloader Mode</title>
 </head>
 <body>
-  <div>
-    <label for="firmware">Firmware File:</label>
-    <input type="file" id="firmware">
-  </div>
-  <div>
-    <label for="port">Select Port:</label>
-    <select id="port"></select>
-  </div>
-  <button id="flashBtn">Flash Firmware</button>
-  <div>
-    <textarea id="terminal" rows="10" cols="40" readonly></textarea>
-  </div>
+  <button id="connectBtn">Connect to ESP32</button>
+  <button id="disconnectBtn">Disconnect</button>
 
   <script src="https://unpkg.com/esptool-js@latest/dist/browser.js"></script>
-  <script src="script.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      let port;
+      const connectBtn = document.getElementById("connectBtn");
+      const disconnectBtn = document.getElementById("disconnectBtn");
+
+      // Function to log messages to the console
+      function logToConsole(message) {
+        console.log(message);
+      }
+
+      // Function to put the ESP32 into bootloader mode
+      async function enterBootloaderMode() {
+        try {
+          const baudrate = 115200; // Set the baud rate here
+
+          port = await navigator.serial.requestPort({ filters: [] });
+          await port.open({ baudRate: baudrate });
+          const esptool = new EsptoolJs({ port });
+
+          // The following line puts the ESP32 into bootloader mode
+          await esptool._connect();
+          logToConsole("ESP32 in bootloader mode.");
+        } catch (err) {
+          console.error("Error putting ESP32 into bootloader mode:", err);
+        }
+      }
+
+      // Function to disconnect from the serial port
+      async function disconnect() {
+        if (port) {
+          await port.close();
+          logToConsole("Disconnected");
+        }
+      }
+
+      // Event listener for the Connect button
+      connectBtn.addEventListener("click", () => {
+        enterBootloaderMode();
+      });
+
+      // Event listener for the Disconnect button
+      disconnectBtn.addEventListener("click", () => {
+        disconnect();
+      });
+    });
+  </script>
 </body>
 </html>
