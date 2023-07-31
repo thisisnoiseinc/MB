@@ -10,29 +10,32 @@
     <p style= "font-family: Avenir; color: white;">2. Press "Install" below 👇</p>
     <script type="module" src="https://unpkg.com/esp-web-tools@3.4.2/dist/web/install-button.js?module"></script>
     <script src="https://unpkg.com/esptool-js/lib/index.js?module"></script>
+    <script src="https://cdn.jsdelivr.net/npm/esptool-js/dist/esptool.min.js"></script>
     <esp-web-install-button manifest="test/manifest.json"></esp-web-install-button>
 
-    <button id="resetButton">Reset 3.7</button>
+    <button id="connectButton">Reset 4.0</button>
 
 <script>
-  const resetButton = document.querySelector('#resetButton');
-
-  async function onResetButtonClick() {
-    const port = await navigator.serial.requestPort();
-    await port.open({ baudRate: 115200 });
-
-    // Reset sequence
-
-    await port.setSignals({ dataTerminalReady: false });
-    await port.setSignals({ requestToSend: true });
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    await port.setSignals({ dataTerminalReady: true });
-    await port.setSignals({ requestToSend: false });
-    await new Promise((resolve) => setTimeout(resolve, 500));
-  }
-
-  resetButton.addEventListener('click', onResetButtonClick);
-    
+  function connectButton() {
+  // Get the connect button element from the DOM
+  const connectButton = document.getElementById('connectButton');
+  
+  // Add event listener to the connect button
+  connectButton.addEventListener('click', async () => {
+    try {
+      // Connect to the device using esptool-js
+      const esptool = new Esptool();
+      await esptool.connect();
+      
+      // Perform further actions after successful connection
+      // ...
+      
+      console.log('Connected to the device successfully!');
+    } catch (error) {
+      console.error('Error connecting to the device:', error);
+    }
+  });
+}    
 </script>
 <style>
   :root {
