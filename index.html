@@ -1,24 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>ESPTool-JS Demo</title>
+  <title>ESPTool-JS Demo 2</title>
 </head>
 <body>
+  <div>
+    <label for="firmware">Firmware File:</label>
+    <input type="file" id="firmware">
+  </div>
   <div>
     <label for="port">Select Port:</label>
     <select id="port"></select>
   </div>
-  <div>
-    <label for="baudrate">Baud Rate:</label>
-    <input type="number" id="baudrate" value="115200">
-  </div>
-  <button id="connectBtn">Connect</button>
-  <button id="disconnectBtn">Disconnect</button>
+  <button id="flashBtn">Flash Firmware</button>
   <div>
     <textarea id="terminal" rows="10" cols="40" readonly></textarea>
   </div>
 
-  <script src="https://unpkg.com/@serialport/stream@2.0.0/lib/index.js"></script>
   <script src="https://unpkg.com/esptool-js@latest/dist/browser.js"></script>
   <script src="script.js"></script>
 </body>
