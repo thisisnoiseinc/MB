@@ -3,9 +3,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const terminal = document.getElementById("terminal");
   const portSelect = document.getElementById("port");
-  const baudrateInput = document.getElementById("baudrate");
-  const connectBtn = document.getElementById("connectBtn");
-  const disconnectBtn = document.getElementById("disconnectBtn");
+  const firmwareInput = document.getElementById("firmware");
+  const flashBtn = document.getElementById("flashBtn");
 
   // Function to log messages to the terminal
   function logToTerminal(message) {
@@ -29,34 +28,35 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Function to connect to the selected serial port
-  async function connect() {
+  // Function to flash firmware to the selected serial port
+  async function flashFirmware() {
     try {
-      const baudrate = parseInt(baudrateInput.value, 10);
+      const file = firmwareInput.files[0];
+      if (!file) {
+        logToTerminal("Please select a firmware file");
+        return;
+      }
+      const baudrate = 115200; // Set the baud rate here
+
       port = await navigator.serial.requestPort({ filters: [] });
-      esptool = new EsptoolJs({ port, baudrate });
-      logToTerminal("Connected to " + port.path + " at " + baudrate + " baud");
+      await port.open({ baudRate: baudrate });
+      esptool = new EsptoolJs({ port });
+
+      logToTerminal("Flashing firmware...");
+
+      const response = await esptool.run({ image: file });
+      logToTerminal(response.stdout);
+
+      await port.close();
+      logToTerminal("Firmware flashing completed.");
     } catch (err) {
-      console.error("Error connecting to serial port:", err);
+      console.error("Error flashing firmware:", err);
     }
   }
 
-  // Function to disconnect from the serial port
-  function disconnect() {
-    if (port) {
-      port.close();
-      logToTerminal("Disconnected");
-    }
-  }
-
-  // Event listener for the Connect button
-  connectBtn.addEventListener("click", () => {
-    connect();
-  });
-
-  // Event listener for the Disconnect button
-  disconnectBtn.addEventListener("click", () => {
-    disconnect();
+  // Event listener for the Flash Firmware button
+  flashBtn.addEventListener("click", () => {
+    flashFirmware();
   });
 
   // Event listener to automatically update the available serial ports
